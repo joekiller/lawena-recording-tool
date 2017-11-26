@@ -93,6 +93,8 @@ public class DemoEditor {
 		view.getBtnAdd().addActionListener(new VdmAddTick(Tick.RECORD_SEGMENT, Tick.NO_TEMPLATE));
 		view.getBtnAddExecRecord().addActionListener(
 				new VdmAddTick(Tick.EXEC_RECORD_SEGMENT, Tick.CAM_IMPORT_TEMPLATE));
+		view.getBtnAddExec().addActionListener(
+		    new VdmAddTick(Tick.EXEC_SEGMENT, Tick.EXEC_TEMPLATE));
 		view.getBtnBrowse().addActionListener(new VdmBrowseDemo());
 		view.getBtnClearTickList().addActionListener(new VdmClearTicks());
 		view.getBtnCreateVdmFiles().addActionListener(new VdmCreateFile());

@@ -32,6 +32,7 @@ public class DemoEditorView extends JPanel {
 	private JTextArea txtrDemodetails;
 	private JCheckBox chckbxSrcDemoFix;
 	private JButton btnAddExecRecord;
+	private JButton btnAddExec;
 	private JLabel lblSkipMode;
 	private JComboBox<SkipMode> cmbSkipMode;
 
@@ -146,6 +147,9 @@ public class DemoEditorView extends JPanel {
 		btnAddExecRecord = new JButton("Add Exec + Record");
 		panelButtonsRight.add(btnAddExecRecord);
 
+		btnAddExec = new JButton("Exec");
+		panelButtonsRight.add(btnAddExec);
+
 		btnDeleteSelectedTick = new JButton("Delete Selected");
 		panelButtonsRight.add(btnDeleteSelectedTick);
 
@@ -243,6 +247,10 @@ public class DemoEditorView extends JPanel {
 
 	public JButton getBtnAddExecRecord() {
 		return btnAddExecRecord;
+	}
+
+	public JButton getBtnAddExec() {
+		return btnAddExec;
 	}
 
 }

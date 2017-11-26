@@ -6,8 +6,10 @@ class Tick {
 
 	public static final String RECORD_SEGMENT = "record";
 	public static final String EXEC_RECORD_SEGMENT = "exec_record";
+	public static final String EXEC_SEGMENT = "exec";
 	public static final String NO_TEMPLATE = "N/A";
 	public static final String CAM_IMPORT_TEMPLATE = "mirv_camimport start \"{{BVH_PATH}}\"";
+    public static final String EXEC_TEMPLATE = "exec s_player.cfg";
 
 	private final String demoname;
 	private final File demoFile;
