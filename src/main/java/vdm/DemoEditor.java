@@ -168,7 +168,7 @@ public class DemoEditor {
                     }
                 }
                 Tick segment = TickFactory.makeTick(currentDemoFile, settings.getTfPath().relativize(currentDemoFile.toPath())
-                    .toString(), tick1, tick2, this.segment);
+                    .toString(), tick1, tick2, this.segment, demoPreview);
                 if (segment.isValid()) {
                     model.addTick(segment);
                     log.info("Adding segment: " + segment);

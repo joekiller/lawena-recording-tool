@@ -66,7 +66,8 @@ public class TickTableModel extends AbstractTableModel {
                             Integer.parseInt(aValue.toString()),
                             tick.getEnd(),
                             tick.getSegment(),
-                            tick.getTemplate()));
+                            tick.getTemplate(),
+                            tick.getDemoPreview()));
                     fireTableCellUpdated(rowIndex, columnIndex);
                 } catch (NumberFormatException e) {
                     log.fine("Cannot set start tick, bad numeric format in: " + aValue);
@@ -81,7 +82,8 @@ public class TickTableModel extends AbstractTableModel {
                             tick.getStart(),
                             Integer.parseInt(aValue.toString()),
                             tick.getSegment(),
-                            tick.getTemplate()));
+                            tick.getTemplate(),
+                            tick.getDemoPreview()));
                     fireTableCellUpdated(rowIndex, columnIndex);
                 } catch (NumberFormatException e) {
                     log.fine("Cannot set end tick, bad numeric format in: " + aValue);
@@ -94,7 +96,8 @@ public class TickTableModel extends AbstractTableModel {
                     tick.getStart(),
                     tick.getEnd(),
                     (String) aValue,
-                    tick.getTemplate());
+                    tick.getTemplate(),
+                    tick.getDemoPreview());
                 list.set(rowIndex, newTick);
                 fireTableRowsUpdated(rowIndex, rowIndex);
                 if (!newTick.isValid()) {
@@ -112,7 +115,8 @@ public class TickTableModel extends AbstractTableModel {
                         tick.getStart(),
                         tick.getEnd(),
                         tick.getSegment(),
-                        (String) aValue));
+                        (String) aValue,
+                        tick.getDemoPreview()));
                 fireTableCellUpdated(rowIndex, columnIndex);
                 break;
             default:

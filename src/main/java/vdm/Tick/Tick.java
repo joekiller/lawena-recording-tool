@@ -1,5 +1,7 @@
 package vdm.Tick;
 
+import util.DemoPreview;
+
 import java.io.File;
 
 abstract public class Tick {
@@ -17,6 +19,7 @@ abstract public class Tick {
     private int end;
     boolean valid;
     String reason;
+    private final DemoPreview demoPreview;
 
     public boolean isValid() {
         return valid;
@@ -26,7 +29,7 @@ abstract public class Tick {
         return reason;
     }
 
-    public Tick(File demoFile, String demoName, int start, int end, String segment, String tickTemplate) {
+    public Tick(File demoFile, String demoName, int start, int end, String segment, String tickTemplate, DemoPreview demoPreview) {
         this.demoFile = demoFile;
         this.demoName = demoName;
         this.start = start;
@@ -34,6 +37,7 @@ abstract public class Tick {
         this.segment = segment;
         this.tickTemplate = tickTemplate;
         this.valid = true;
+        this.demoPreview = demoPreview;
     }
 
     public File getDemoFile() {
@@ -105,5 +109,9 @@ abstract public class Tick {
             return false;
         }
         return true;
+    }
+
+    public DemoPreview getDemoPreview() {
+        return demoPreview;
     }
 }
