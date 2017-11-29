@@ -161,8 +161,7 @@ public class DemoEditor {
                 if (!Exec.Segment.equals(segment)) {
                     tick2 = Integer.parseInt(view.getTxtEndtick().getText());
                 }
-                Tick segment = TickFactory.makeTick(currentDemoFile, settings.getTfPath().relativize(currentDemoFile.toPath())
-                    .toString(), tick1, tick2, this.segment, demoPreview);
+                Tick segment = TickFactory.makeTick(demoPreview, tick1, tick2, this.segment);
                 if (segment.isValid()) {
                     model.addTick(segment);
                     log.info("Adding segment: " + segment);

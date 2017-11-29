@@ -72,11 +72,13 @@ public class DemoPreview {
     private int tickNumber;
     private int frames;
     private int signOnLength;
+    private String absoluteFile;
+    private String fileName;
     private int tickRate;
 
     public DemoPreview(String demoStamp, int demoProtocol, int networkProtocol, String serverName, String playerName,
                        String mapName, String gameDirectory, float playbackTime, int tickNumber, int frames,
-                       int signOnLength) {
+                       int signOnLength, String absoluteFile, String fileName) {
 
         this.demoStamp = demoStamp;
         this.demoProtocol = demoProtocol;
@@ -89,6 +91,8 @@ public class DemoPreview {
         this.tickNumber = tickNumber;
         this.frames = frames;
         this.signOnLength = signOnLength;
+        this.absoluteFile = absoluteFile;
+        this.fileName = fileName;
         this.tickRate = Math.round(tickNumber / Math.round(playbackTime));
     }
 
@@ -116,4 +120,11 @@ public class DemoPreview {
             "TickRate: " + tickRate);
     }
 
+    public String getAbsoluteFile() {
+        return absoluteFile;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
 }

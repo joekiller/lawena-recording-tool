@@ -2,8 +2,6 @@ package vdm.Tick;
 
 import util.DemoPreview;
 
-import java.io.File;
-
 abstract public class Tick {
 
     public String getSegment() {
@@ -14,7 +12,6 @@ abstract public class Tick {
 
     private final String tickTemplate;
     private final String demoName;
-    private final File demoFile;
     private int start;
     private int end;
     boolean valid;
@@ -29,9 +26,8 @@ abstract public class Tick {
         return reason;
     }
 
-    public Tick(File demoFile, String demoName, int start, int end, String segment, String tickTemplate, DemoPreview demoPreview) {
-        this.demoFile = demoFile;
-        this.demoName = demoName;
+    public Tick(DemoPreview demoPreview, int start, int end, String segment, String tickTemplate) {
+        this.demoName = demoPreview.getFileName();
         if (start < 3)
             start = 3;
         this.start = start;
@@ -42,10 +38,6 @@ abstract public class Tick {
         this.tickTemplate = tickTemplate;
         this.valid = true;
         this.demoPreview = demoPreview;
-    }
-
-    public File getDemoFile() {
-        return demoFile;
     }
 
     public String getDemoName() {

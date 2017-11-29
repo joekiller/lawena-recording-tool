@@ -61,13 +61,12 @@ public class TickTableModel extends AbstractTableModel {
                 try {
                     list.set(rowIndex,
                         TickFactory.makeTick(
-                            tick.getDemoFile(),
-                            tick.getDemoName(),
+                            tick.getDemoPreview(),
                             Integer.parseInt(aValue.toString()),
                             tick.getEnd(),
                             tick.getSegment(),
-                            tick.getTemplate(),
-                            tick.getDemoPreview()));
+                            tick.getTemplate()
+                        ));
                     fireTableCellUpdated(rowIndex, columnIndex);
                 } catch (NumberFormatException e) {
                     log.fine("Cannot set start tick, bad numeric format in: " + aValue);
@@ -77,13 +76,12 @@ public class TickTableModel extends AbstractTableModel {
                 try {
                     list.set(rowIndex,
                         TickFactory.makeTick(
-                            tick.getDemoFile(),
-                            tick.getDemoName(),
+                            tick.getDemoPreview(),
                             tick.getStart(),
                             Integer.parseInt(aValue.toString()),
                             tick.getSegment(),
-                            tick.getTemplate(),
-                            tick.getDemoPreview()));
+                            tick.getTemplate()
+                        ));
                     fireTableCellUpdated(rowIndex, columnIndex);
                 } catch (NumberFormatException e) {
                     log.fine("Cannot set end tick, bad numeric format in: " + aValue);
@@ -91,13 +89,12 @@ public class TickTableModel extends AbstractTableModel {
                 break;
             case TYPE:
                 Tick newTick = TickFactory.makeTick(
-                    tick.getDemoFile(),
-                    tick.getDemoName(),
+                    tick.getDemoPreview(),
                     tick.getStart(),
                     tick.getEnd(),
                     (String) aValue,
-                    tick.getTemplate(),
-                    tick.getDemoPreview());
+                    tick.getTemplate()
+                );
                 list.set(rowIndex, newTick);
                 fireTableRowsUpdated(rowIndex, rowIndex);
                 if (!newTick.isValid()) {
@@ -110,13 +107,12 @@ public class TickTableModel extends AbstractTableModel {
             case TEMPLATE:
                 list.set(rowIndex,
                     TickFactory.makeTick(
-                        tick.getDemoFile(),
-                        tick.getDemoName(),
+                        tick.getDemoPreview(),
                         tick.getStart(),
                         tick.getEnd(),
                         tick.getSegment(),
-                        (String) aValue,
-                        tick.getDemoPreview()));
+                        (String) aValue
+                    ));
                 fireTableCellUpdated(rowIndex, columnIndex);
                 break;
             default:

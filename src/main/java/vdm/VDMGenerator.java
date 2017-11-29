@@ -128,7 +128,7 @@ class VDMGenerator {
 					    - {{LAWENA_PATH}} resolves into the absolute location of the Lawena folder.
 						- {{NEW_LINE}} resolves into a new line.
 					 */
-                    String demoCfgName = Util.stripFilenameExtension(tick.getDemoFile().getName());
+                    String demoCfgName = Util.stripFilenameExtension(tick.getDemoPreview().getFileName());
                     if (!tick.getTemplate().equals(Record.Template)
                         && !tick.getTemplate().isEmpty()
                         && !tick.getTemplate().toLowerCase().startsWith("exec ")) {
@@ -138,7 +138,7 @@ class VDMGenerator {
                         scopes.put("TF_PATH", cfg.getTfPath().toAbsolutePath());
                         scopes.put("MOVIE_PATH", cfg.getMoviePath().toAbsolutePath());
                         scopes.put("DEMO_NAME", demoCfgName);
-                        scopes.put("DEMO_PATH", tick.getDemoFile().getAbsoluteFile());
+                        scopes.put("DEMO_PATH", tick.getDemoPreview().getAbsoluteFile());
                         scopes.put("DEMO_PATH_NOEXT", cfg.getTfPath().toAbsolutePath().resolve(demoCfgName));
                         scopes.put("BVH_PATH", cfg.getTfPath().toAbsolutePath().resolve(demoCfgName + ".bvh"));
                         scopes.put("LAWENA_PATH", Paths.get("").toAbsolutePath());

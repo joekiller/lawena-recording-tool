@@ -25,7 +25,9 @@ public class DemoPreviewFactory {
                 readFloatBackwards(dp),
                 readIntBackwards(dp),
                 readIntBackwards(dp),
-                readIntBackwards(dp));
+                readIntBackwards(dp),
+                demoPath.toFile().getAbsoluteFile().toString(),
+                demoPath.toFile().getName());
         } catch (Exception e) {
             log.log(Level.FINE, "Could not retrieve demo details", e);
             throw e;
