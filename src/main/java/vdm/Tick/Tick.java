@@ -32,7 +32,11 @@ abstract public class Tick {
     public Tick(File demoFile, String demoName, int start, int end, String segment, String tickTemplate, DemoPreview demoPreview) {
         this.demoFile = demoFile;
         this.demoName = demoName;
+        if (start < 3)
+            start = 3;
         this.start = start;
+        if (end > demoPreview.getMaxTick())
+            end = demoPreview.getMaxTick();
         this.end = end;
         this.segment = segment;
         this.tickTemplate = tickTemplate;

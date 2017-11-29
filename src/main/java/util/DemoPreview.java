@@ -50,6 +50,8 @@ public class DemoPreview {
         return tickNumber;
     }
 
+    public int getMaxTick() { return tickNumber - 1; }
+
     public int getFrames() {
         return frames;
     }
