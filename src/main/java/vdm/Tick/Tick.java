@@ -7,6 +7,7 @@ abstract public class Tick {
     public String getSegment() {
         return segment;
     }
+    public static final int MIN_START = 3;
 
     private final String segment;
 
@@ -28,8 +29,8 @@ abstract public class Tick {
 
     public Tick(DemoPreview demoPreview, int start, int end, String segment, String tickTemplate) {
         this.demoName = demoPreview.getFileName();
-        if (start < 3)
-            start = 3;
+        if (start < MIN_START)
+            start = MIN_START;
         this.start = start;
         if (end > demoPreview.getMaxTick())
             end = demoPreview.getMaxTick();

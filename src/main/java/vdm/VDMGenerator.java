@@ -5,6 +5,7 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 import lwrt.SettingsManager;
 import lwrt.SettingsManager.Key;
+import util.DemoPreview;
 import util.Util;
 import vdm.Tick.AbstractExec;
 import vdm.Tick.Exec;
@@ -49,22 +50,48 @@ class VDMGenerator {
         return sb.toString();
     }
 
+    private class VDM {
+        public String getDemoName() {
+            return demoName;
+        }
+
+        private String demoName;
+        private ArrayList<Tick> ticks;
+
+        public VDM(String demoName) {
+            this.demoName = demoName;
+            ticks = new ArrayList<Tick>();
+        }
+
+        public void add(Tick t){
+            ticks.add(t);
+        }
+
+        public ArrayList<Tick> getTicks() {
+            return ticks;
+        }
+    }
+
     public List<Path> generate() throws IOException {
         List<Path> paths = new ArrayList<>();
-        Map<String, Set<Tick>> demomap = new LinkedHashMap<>();
+        Map<String, VDM> vdms = new LinkedHashMap<>();
         Map<String, String> peeknext = new LinkedHashMap<>();
-        String previous = null;
+        VDM previous = null;
+        VDM current = null;
         for (Tick tick : ticklist) {
-            Set<Tick> ticks = demomap.computeIfAbsent(tick.getDemoName(),
-                k -> new TreeSet<>(Comparator.comparing(Tick::getDemoName)
-                    .thenComparingInt(Tick::getStart)));
-            ticks.add(tick);
-            if (previous != null) {
-                if (!peeknext.containsKey(previous) && !previous.equals(tick.getDemoName())) {
-                    peeknext.put(previous, tick.getDemoName());
+            if(previous != null || current == null) {
+                if(current == null || !previous.getDemoName().equals(tick.getDemoName())) {
+                    current = vdms.computeIfAbsent(tick.getDemoName(),
+                        k -> new VDM(tick.getDemoName()));
                 }
             }
-            previous = tick.getDemoName();
+            current.add(tick);
+            if (previous != null) {
+                if (!peeknext.containsKey(previous.getDemoName()) && !previous.getDemoName().equals(tick.getDemoName())) {
+                    peeknext.put(previous.getDemoName(), tick.getDemoName());
+                }
+            }
+            previous = current;
         }
 
         int cfgCount = 1;
@@ -80,15 +107,15 @@ class VDMGenerator {
             log.warning("Invalid value detected for skip mode: " + rawSkipMode);
         }
 
-        for (Entry<String, Set<Tick>> e : demomap.entrySet()) {
+        for (Entry<String, VDM> e : vdms.entrySet()) {
             String demo = e.getKey();
             log.finer("Creating VDM file for demo: " + demo);
             List<String> lines = new ArrayList<>();
             lines.add("demoactions" + n + "{");
             int count = 1;
-            int previousEndTick = 0;
-            for (Tick tick : e.getValue()) {
-                int safeStart = Math.max(0, tick.getStart() - padding);
+            int previousEndTick = Tick.MIN_START;
+            for (Tick tick : e.getValue().getTicks()) {
+                int safeStart = Math.max(Tick.MIN_START, tick.getStart() - padding);
                 // no need to skip if the next segment is closer than the padding length
                 boolean needsSkip = previousEndTick + 1 < safeStart;
                 if (needsSkip) {
