@@ -5,12 +5,14 @@ import com.github.mustachejava.Mustache;
 import com.github.mustachejava.MustacheFactory;
 import lwrt.SettingsManager;
 import lwrt.SettingsManager.Key;
-import util.DemoPreview;
 import util.Util;
-import vdm.Tick.AbstractExec;
-import vdm.Tick.Exec;
-import vdm.Tick.Record;
-import vdm.Tick.Tick;
+import vdm.Segments.SkipAhead;
+import vdm.Segments.StartSkip;
+import vdm.Segments.StopSkip;
+import vdm.Ticks.AbstractExec;
+import vdm.Ticks.Exec;
+import vdm.Ticks.Record;
+import vdm.Ticks.Tick;
 
 import java.io.IOException;
 import java.io.StringReader;
@@ -27,7 +29,6 @@ import java.util.logging.Logger;
 class VDMGenerator {
 
     private static final Logger log = Logger.getLogger("lawena");
-    private static final String n = System.getProperty("line.separator");
 
     private List<Tick> ticklist;
     private SettingsManager cfg;
@@ -35,41 +36,6 @@ class VDMGenerator {
     public VDMGenerator(List<Tick> ticklist, SettingsManager cfg) {
         this.ticklist = ticklist;
         this.cfg = cfg;
-    }
-
-    private static String segment(int count, String factory, String name, String... args) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("\t\"").append(count).append("\"").append(n);
-        sb.append("\t{").append(n);
-        sb.append("\t\tfactory \"").append(factory).append("\"").append(n);
-        sb.append("\t\tname \"").append(name).append("\"").append(n);
-        for (String arg : args) {
-            sb.append("\t\t").append(arg).append(n);
-        }
-        sb.append("\t}");
-        return sb.toString();
-    }
-
-    private class VDM {
-        public String getDemoName() {
-            return demoName;
-        }
-
-        private String demoName;
-        private ArrayList<Tick> ticks;
-
-        public VDM(String demoName) {
-            this.demoName = demoName;
-            ticks = new ArrayList<Tick>();
-        }
-
-        public void add(Tick t){
-            ticks.add(t);
-        }
-
-        public ArrayList<Tick> getTicks() {
-            return ticks;
-        }
     }
 
     public List<Path> generate() throws IOException {
@@ -82,7 +48,11 @@ class VDMGenerator {
             if(previous != null || current == null) {
                 if(current == null || !previous.getDemoName().equals(tick.getDemoName())) {
                     current = vdms.computeIfAbsent(tick.getDemoName(),
-                        k -> new VDM(tick.getDemoName()));
+                        k -> new VDM(tick.getDemoName(),
+                            cfg.getInt(Key.VdmTickPadding),
+                            cfg.getString(Key.VdmSkipStartCommand),
+                            cfg.getString(Key.VdmSkipStopCommand),
+                            cfg.getString(Key.VdmSkipMode)));
                 }
             }
             current.add(tick);
@@ -95,42 +65,28 @@ class VDMGenerator {
         }
 
         int cfgCount = 1;
-
-        int padding = cfg.getInt(Key.VdmTickPadding);
-        String skipStart = cfg.getString(Key.VdmSkipStartCommand);
-        String skipStop = cfg.getString(Key.VdmSkipStopCommand);
-        String rawSkipMode = cfg.getString(Key.VdmSkipMode);
-        SkipMode skipMode = SkipMode.SKIP_AHEAD;
-        try {
-            skipMode = SkipMode.valueOf(rawSkipMode);
-        } catch (IllegalArgumentException ex) {
-            log.warning("Invalid value detected for skip mode: " + rawSkipMode);
-        }
-
         for (Entry<String, VDM> e : vdms.entrySet()) {
             String demo = e.getKey();
+            VDM vdm = e.getValue();
             log.finer("Creating VDM file for demo: " + demo);
             List<String> lines = new ArrayList<>();
             lines.add("demoactions" + n + "{");
             int count = 1;
             int previousEndTick = Tick.MIN_START;
             for (Tick tick : e.getValue().getTicks()) {
-                int safeStart = Math.max(Tick.MIN_START, tick.getStart() - padding);
+                int safeStart = Math.max(Tick.MIN_START, tick.getStart() - vdm.getPadding());
                 // no need to skip if the next segment is closer than the padding length
                 boolean needsSkip = previousEndTick + 1 < safeStart;
                 if (needsSkip) {
-                    if (skipMode == SkipMode.DEMO_TIMESCALE) {
-                        lines.add(segment(count++, "PlayCommands", "startskip", "starttick \""
-                            + (previousEndTick + 1) + "\"", "commands \"" + skipStart + "\""));
-                        lines.add(segment(count++, "PlayCommands", "stopskip", "starttick \"" + safeStart + "\"",
-                            "commands \"" + skipStop + "\""));
-                    } else if (skipMode == SkipMode.SKIP_AHEAD) {
-                        lines.add(segment(count++, "SkipAhead", "skip", "starttick \"" + (previousEndTick + 1)
-                            + "\"", "skiptotick \"" + safeStart + "\""));
+                    if (vdm.getSkipMode() == SkipMode.DEMO_TIMESCALE) {
+                        lines.add(new StartSkip(count++, previousEndTick, vdm.getSkipStartCommand()).toString());
+                        lines.add(new StopSkip(count++, safeStart, vdm.getSkipStopCommand()).toString());
+                    } else if (vdm.getSkipMode() == SkipMode.SKIP_AHEAD) {
+                        lines.add(new SkipAhead(count++, safeStart, previousEndTick).toString());
                     }
                 }
                 String command = "startrecording";
-                if (tick.getSegment().startsWith("exec")) {
+                if (tick.getName().startsWith("exec")) {
                     command = ((AbstractExec) tick).getCommand(cfgCount);
 
 					/*
@@ -160,7 +116,7 @@ class VDMGenerator {
                         && !tick.getTemplate().isEmpty()
                         && !tick.getTemplate().toLowerCase().startsWith("exec ")) {
 
-                        log.info("Generating template #" + cfgCount + " for Tick " + tick);
+                        log.info("Generating template #" + cfgCount + " for Segments " + tick);
                         Map<String, Object> scopes = new HashMap<>();
                         scopes.put("TF_PATH", cfg.getTfPath().toAbsolutePath());
                         scopes.put("MOVIE_PATH", cfg.getMoviePath().toAbsolutePath());
@@ -184,8 +140,8 @@ class VDMGenerator {
                         }
                     }
                 }
-                if (tick.getSegment().equals(Exec.Segment)) {
-                    lines.add(segment(count++, "PlayCommands", tick.getSegment(), "starttick \"" + tick.getStart()
+                if (tick.getName().equals(Exec.Name)) {
+                    lines.add(segment(count++, "PlayCommands", tick.getName(), "starttick \"" + tick.getStart()
                         + "\"", "commands \"" + command + "\""));
                 } else {
                     lines.add(segment(count++, "PlayCommands", "startrec", "starttick \"" + tick.getStart()

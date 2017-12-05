@@ -1,9 +1,9 @@
 package ui;
 
 import vdm.SkipMode;
-import vdm.Tick.Exec;
-import vdm.Tick.ExecRecord;
-import vdm.Tick.Record;
+import vdm.Ticks.Exec;
+import vdm.Ticks.ExecRecord;
+import vdm.Ticks.Record;
 
 import javax.swing.*;
 import java.awt.*;
@@ -96,7 +96,7 @@ public class DemoEditorView extends JPanel {
         txtrDemodetails.setFont(new Font("Segoe UI", Font.PLAIN, 10));
         scrollPane.setViewportView(txtrDemodetails);
 
-        lblStartTick = new JLabel("Start Tick:");
+        lblStartTick = new JLabel("Start Segments:");
         GridBagConstraints gbc_lblStartTick = new GridBagConstraints();
         gbc_lblStartTick.anchor = GridBagConstraints.EAST;
         gbc_lblStartTick.insets = new Insets(0, 5, 5, 5);
@@ -113,7 +113,7 @@ public class DemoEditorView extends JPanel {
         add(txtStarttick, gbc_txtStarttick);
         txtStarttick.setColumns(10);
 
-        lblEndTick = new JLabel("End Tick:");
+        lblEndTick = new JLabel("End Segments:");
         GridBagConstraints gbc_lblEndTick = new GridBagConstraints();
         gbc_lblEndTick.anchor = GridBagConstraints.EAST;
         gbc_lblEndTick.insets = new Insets(0, 0, 5, 5);

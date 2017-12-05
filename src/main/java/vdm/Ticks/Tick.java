@@ -1,18 +1,26 @@
-package vdm.Tick;
+package vdm.Ticks;
 
 import util.DemoPreview;
 
 abstract public class Tick {
 
-    public String getSegment() {
-        return segment;
+    private static final String n = System.getProperty("line.separator");
+
+    public String getName() {
+        return name;
     }
     public static final int MIN_START = 3;
 
-    private final String segment;
+    private final String name;
 
     private final String tickTemplate;
     private final String demoName;
+
+    public String getFactory() {
+        return factory;
+    }
+
+    private final String factory;
     private int start;
     private int end;
     boolean valid;
@@ -27,7 +35,7 @@ abstract public class Tick {
         return reason;
     }
 
-    public Tick(DemoPreview demoPreview, int start, int end, String segment, String tickTemplate) {
+    public Tick(DemoPreview demoPreview, int start, int end, String name, String tickTemplate, String factory) {
         this.demoName = demoPreview.getFileName();
         if (start < MIN_START)
             start = MIN_START;
@@ -35,10 +43,11 @@ abstract public class Tick {
         if (end > demoPreview.getMaxTick())
             end = demoPreview.getMaxTick();
         this.end = end;
-        this.segment = segment;
+        this.name = name;
         this.tickTemplate = tickTemplate;
         this.valid = true;
         this.demoPreview = demoPreview;
+        this.factory = factory;
     }
 
     public String getDemoName() {
@@ -69,7 +78,7 @@ abstract public class Tick {
         result = prime * result + ((demoName == null) ? 0 : demoName.hashCode());
         result = prime * result + end;
         result = prime * result + start;
-        result = prime * result + ((segment == null) ? 0 : segment.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
 
@@ -98,11 +107,11 @@ abstract public class Tick {
         if (start != other.start) {
             return false;
         }
-        if (segment == null) {
-            if (other.segment != null) {
+        if (name == null) {
+            if (other.name != null) {
                 return false;
             }
-        } else if (!segment.equals(other.segment)) {
+        } else if (!name.equals(other.name)) {
             return false;
         }
         return true;

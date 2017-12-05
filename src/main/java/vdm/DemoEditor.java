@@ -6,7 +6,7 @@ import lwrt.SettingsManager.Key;
 import ui.DemoEditorView;
 import util.DemoPreview;
 import util.DemoPreviewFactory;
-import vdm.Tick.*;
+import vdm.Ticks.*;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -79,9 +79,9 @@ public class DemoEditor {
             view.getTableTicks().getColumnModel().getColumn(TickTableModel.Column.TYPE.ordinal());
         JComboBox<String> segmentTypes = new JComboBox<>();
         segmentTypes.setEditable(false);
-        segmentTypes.addItem(Record.Segment);
-        segmentTypes.addItem(ExecRecord.Segment);
-        segmentTypes.addItem(Exec.Segment);
+        segmentTypes.addItem(Record.Name);
+        segmentTypes.addItem(ExecRecord.Name);
+        segmentTypes.addItem(Exec.Name);
         typeColumn.setCellEditor(new DefaultCellEditor(segmentTypes));
 
         TableColumn templateColumn =
@@ -93,11 +93,11 @@ public class DemoEditor {
         templateTypes.addItem(Exec.QuitTemplate);
         templateColumn.setCellEditor(new DefaultCellEditor(templateTypes));
 
-        view.getBtnAdd().addActionListener(new VdmAddTick(Record.Segment));
+        view.getBtnAdd().addActionListener(new VdmAddTick(Record.Name));
         view.getBtnAddExecRecord().addActionListener(
-            new VdmAddTick(ExecRecord.Segment));
+            new VdmAddTick(ExecRecord.Name));
         view.getBtnAddExec().addActionListener(
-            new VdmAddTick(Exec.Segment));
+            new VdmAddTick(Exec.Name));
         view.getBtnBrowse().addActionListener(new VdmBrowseDemo());
         view.getBtnClearTickList().addActionListener(new VdmClearTicks());
         view.getBtnCreateVdmFiles().addActionListener(new VdmCreateFile());
@@ -158,7 +158,7 @@ public class DemoEditor {
                 int tick1 = Integer.parseInt(view.getTxtStarttick().getText());
                 int tick2 = tick1;
                 // exec segments don't need end tick
-                if (!Exec.Segment.equals(segment)) {
+                if (!Exec.Name.equals(segment)) {
                     tick2 = Integer.parseInt(view.getTxtEndtick().getText());
                 }
                 Tick segment = TickFactory.makeTick(demoPreview, tick1, tick2, this.segment);

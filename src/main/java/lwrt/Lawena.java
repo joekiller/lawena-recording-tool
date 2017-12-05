@@ -630,7 +630,7 @@ public class Lawena {
 
             @Override
             public String getColumnName(int column) {
-                return column == 0 ? "" : "Segment";
+                return column == 0 ? "" : "Name";
             }
         };
     }

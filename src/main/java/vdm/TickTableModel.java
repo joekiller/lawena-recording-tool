@@ -1,7 +1,7 @@
 package vdm;
 
-import vdm.Tick.Tick;
-import vdm.Tick.TickFactory;
+import vdm.Ticks.Tick;
+import vdm.Ticks.TickFactory;
 
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
@@ -44,7 +44,7 @@ public class TickTableModel extends AbstractTableModel {
             case END:
                 return tick.getEnd();
             case TYPE:
-                return tick.getSegment();
+                return tick.getName();
             case TEMPLATE:
                 return tick.getTemplate();
             default:
@@ -64,7 +64,7 @@ public class TickTableModel extends AbstractTableModel {
                             tick.getDemoPreview(),
                             Integer.parseInt(aValue.toString()),
                             tick.getEnd(),
-                            tick.getSegment(),
+                            tick.getName(),
                             tick.getTemplate()
                         ));
                     fireTableCellUpdated(rowIndex, columnIndex);
@@ -79,7 +79,7 @@ public class TickTableModel extends AbstractTableModel {
                             tick.getDemoPreview(),
                             tick.getStart(),
                             Integer.parseInt(aValue.toString()),
-                            tick.getSegment(),
+                            tick.getName(),
                             tick.getTemplate()
                         ));
                     fireTableCellUpdated(rowIndex, columnIndex);
@@ -110,7 +110,7 @@ public class TickTableModel extends AbstractTableModel {
                         tick.getDemoPreview(),
                         tick.getStart(),
                         tick.getEnd(),
-                        tick.getSegment(),
+                        tick.getName(),
                         (String) aValue
                     ));
                 fireTableCellUpdated(rowIndex, columnIndex);
@@ -125,7 +125,7 @@ public class TickTableModel extends AbstractTableModel {
         if (columnIndex == Column.TEMPLATE.ordinal()) {
             if (rowIndex >= 0 && rowIndex < list.size()) {
                 Tick tick = list.get(rowIndex);
-                return tick.getSegment().startsWith("exec");
+                return tick.getName().startsWith("exec");
             }
         }
         return columnIndex != Column.DEMO.ordinal();
@@ -172,8 +172,8 @@ public class TickTableModel extends AbstractTableModel {
     }
 
     public enum Column {
-        DEMO("Demo name"), TYPE("Segment"), TEMPLATE("Template"), START("Starting Tick"), END(
-            "Ending Tick");
+        DEMO("Demo name"), TYPE("Name"), TEMPLATE("Template"), START("Starting Segments"), END(
+            "Ending Segments");
 
         private String columnName;
 
