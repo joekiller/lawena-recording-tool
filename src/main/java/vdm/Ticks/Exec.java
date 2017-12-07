@@ -1,10 +1,11 @@
 package vdm.Ticks;
 
 import util.DemoPreview;
+import vdm.Segments.PlayCommands;
+import vdm.Segments.Segment;
 
-public class Exec extends AbstractExec {
+public class Exec extends Tick {
     public static final String Text = "Add Exec";
-    public static final String Factory = "PlayCommands";
     public static final String Name = "exec";
     public static final String Template = "exec spec_player";
     public static final String QuitTemplate = "exec quit";
@@ -13,13 +14,7 @@ public class Exec extends AbstractExec {
         super(demoPreview, start, start, Name, template);
     }
 
-    public String getCommand(int count) {
-        return getTemplate();
-    }
-
-    @Override
-    public String segment(int count) {
-        return Tick.segment(count, Factory, Name, "starttick \"" + getStart()
-            + "\"", "commands \"" + getTemplate() + "\"");
+    public Segment getSegment(int count) {
+        return new PlayCommands(count, Name, getStart(), getTemplate());
     }
 }

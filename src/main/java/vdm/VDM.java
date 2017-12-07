@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 
 public class VDM {
 
-    private static final Logger log = Logger.getLogger(VDM.class.toString());
+    private static final Logger log = Logger.getLogger("lawena");
     public String getDemoName() {
         return demoName;
     }

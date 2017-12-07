@@ -5,10 +5,8 @@ import java.util.logging.Logger;
 
 public class DemoPreview {
 
+    public static final int maxStringLength = 260;
     private static final Logger log = Logger.getLogger("lawena");
-    private static final String n = System.getProperty("line.separator");
-
-    public final static int maxStringLength = 260;
 
     private int demoProtocol;
     private int networkProtocol;
@@ -105,7 +103,7 @@ public class DemoPreview {
 
     @Override
     public String toString() {
-        return String.join(n,
+        return String.join(Util.n,
             "Stamp: " + demoStamp,
             "DemoProtocol: " + demoProtocol,
             "NetworkProtocol: " + networkProtocol,

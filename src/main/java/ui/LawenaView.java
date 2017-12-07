@@ -1,5 +1,7 @@
 package ui;
 
+import util.Util;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -17,7 +19,7 @@ import java.util.logging.Logger;
 public class LawenaView extends JFrame {
 
     private static final Logger log = Logger.getLogger("lawena");
-    private static final String n = System.getProperty("line.separator");
+
     private static final String renderingTutorialURL =
         "https://github.com/quanticc/lawena-recording-tool/wiki/Synchronize-audio-and-video";
     private static final String releasesURL =
@@ -294,7 +296,7 @@ public class LawenaView extends JFrame {
 
         JScrollPane scrollPane = new JScrollPane();
         scrollPane
-            .setToolTipText(String.join(n,
+            .setToolTipText(String.join(Util.n,
                 "<html>Drag custom folders to this table or copy them<br>",
                 "to lawena 'custom' folder to make them appear here."));
         GridBagConstraints gbc_scrollPane = new GridBagConstraints();
@@ -666,7 +668,7 @@ public class LawenaView extends JFrame {
         JCheckBox usePlayerModel_1 = new JCheckBox("3D Player Model in HUD");
         usePlayerModel_1
             .setToolTipText(
-                String.join(n, "<html>",
+                String.join(Util.n, "<html>",
                     "Use player model in player class HUD, selecting this option<br>",
                     "will add \"cl_hud_playerclass_use_playermodel 1\" to the config.<br>",
                     "This option is useful if you use Custom HUDs."));

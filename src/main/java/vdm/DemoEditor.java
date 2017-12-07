@@ -164,7 +164,7 @@ public class DemoEditor {
                 Tick segment = TickFactory.makeTick(demoPreview, tick1, tick2, this.segment);
                 if (segment.isValid()) {
                     model.addTick(segment);
-                    log.info("Adding segment: " + segment);
+                    log.info("Adding getSegment: " + segment);
                 } else {
                     JOptionPane.showMessageDialog(view,
                         segment.getReason(), "Error",

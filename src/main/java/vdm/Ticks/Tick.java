@@ -1,10 +1,11 @@
 package vdm.Ticks;
 
 import util.DemoPreview;
+import vdm.Segments.Segment;
 
 abstract public class Tick {
 
-    private static final String n = System.getProperty("line.separator");
+
 
     public String getName() {
         return name;
@@ -16,11 +17,6 @@ abstract public class Tick {
     private final String tickTemplate;
     private final String demoName;
 
-    public String getFactory() {
-        return factory;
-    }
-
-    private final String factory;
     private int start;
     private int end;
     boolean valid;
@@ -35,7 +31,7 @@ abstract public class Tick {
         return reason;
     }
 
-    public Tick(DemoPreview demoPreview, int start, int end, String name, String tickTemplate, String factory) {
+    public Tick(DemoPreview demoPreview, int start, int end, String name, String tickTemplate) {
         this.demoName = demoPreview.getFileName();
         if (start < MIN_START)
             start = MIN_START;
@@ -47,7 +43,6 @@ abstract public class Tick {
         this.tickTemplate = tickTemplate;
         this.valid = true;
         this.demoPreview = demoPreview;
-        this.factory = factory;
     }
 
     public String getDemoName() {
@@ -120,4 +115,6 @@ abstract public class Tick {
     public DemoPreview getDemoPreview() {
         return demoPreview;
     }
+
+    abstract public Segment getSegment(int count);
 }

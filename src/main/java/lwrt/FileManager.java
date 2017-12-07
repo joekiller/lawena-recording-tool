@@ -20,10 +20,11 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static util.Util.n;
+
 class FileManager {
 
     private static final Logger log = Logger.getLogger("lawena");
-    private static final String n = System.getProperty("line.separator");
 
     private CustomPathList customPathList;
     private SettingsManager cfg;

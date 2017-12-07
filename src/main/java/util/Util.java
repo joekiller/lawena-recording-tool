@@ -18,6 +18,7 @@ import java.util.logging.Logger;
 
 public class Util {
 
+    public static final String n = System.getProperty("line.separator");
     private static final Logger log = Logger.getLogger("lawena");
 
     private Util() {

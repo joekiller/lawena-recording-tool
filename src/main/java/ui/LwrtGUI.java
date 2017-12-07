@@ -3,6 +3,7 @@ package ui;
 import lwrt.Lawena;
 import lwrt.SettingsManager;
 import util.StartLogger;
+import util.Util;
 
 import javax.swing.*;
 import java.util.logging.Level;
@@ -11,7 +12,7 @@ import java.util.logging.Logger;
 class LwrtGUI {
 
     private static final Logger log = Logger.getLogger("lawena");
-    private static final String n = System.getProperty("line.separator");
+
 
     public static void main(String[] args) throws Exception {
         SettingsManager cfg = new SettingsManager("settings.lwf");
@@ -24,7 +25,7 @@ class LwrtGUI {
                 log.log(Level.SEVERE, "Unexpected problem in " + t, e);
                 if (!dialogShown) {
                     JOptionPane.showMessageDialog(null,
-                        String.join(n,
+                        String.join(Util.n,
                             "An error occurred while running Lawena.",
                             "Caused by " + e.toString(),
                             "Please see the logfile for more information."),
@@ -42,7 +43,7 @@ class LwrtGUI {
                 } catch (Exception e) {
                     log.log(Level.WARNING, "Problem while running the GUI", e);
                     JOptionPane.showMessageDialog(null,
-                        String.join(n,
+                        String.join(Util.n,
                             "An error occurred while displaying the GUI.",
                             "Caused by " + e.toString(),
                             "Please see the logfile for more information."),
@@ -53,7 +54,7 @@ class LwrtGUI {
         } catch (Throwable t) {
             log.log(Level.SEVERE, "Problem initializing Lawena", t);
             JOptionPane.showMessageDialog(null,
-                String.join(n,
+                String.join(Util.n,
                     "An error occurred while starting Lawena.",
                     "Caused by " + t.toString(),
                     "Please see the logfile for more information."),

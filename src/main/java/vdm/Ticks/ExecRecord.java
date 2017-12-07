@@ -2,8 +2,11 @@ package vdm.Ticks;
 
 import util.DemoPreview;
 import util.Util;
+import vdm.Segments.PlayCommands;
+import vdm.Segments.Segment;
+import vdm.Segments.StartRec;
 
-public class ExecRecord extends AbstractExec {
+public class ExecRecord extends Tick {
     public static final String Name = "exec_record";
     public static final String Template = "mirv_camimport start \"{{BVH_PATH}}\"";
     public static final String Text = "Add Exec + Record";
@@ -17,7 +20,7 @@ public class ExecRecord extends AbstractExec {
         }
     }
 
-    public String getCommand(int count) {
-        return "exec " + Util.stripFilenameExtension(this.getDemoPreview().getFileName()) + "_" + count + "; startrecording";
+    public Segment getSegment(int count) {
+        return new StartRec(count, getStart(), "exec " + Util.stripFilenameExtension(this.getDemoPreview().getFileName()) + "_" + count + "; startrecording");
     }
 }

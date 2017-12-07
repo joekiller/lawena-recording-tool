@@ -2,9 +2,9 @@ package vdm.Segments;
 
 import vdm.Ticks.Tick;
 
-public abstract class Segment {
-    private static final String n = System.getProperty("line.separator");
+import static util.Util.n;
 
+public abstract class Segment {
     public String getName() {
         return name;
     }
@@ -19,13 +19,6 @@ public abstract class Segment {
         this.name = name;
         this.args = args;
     }
-
-    public Segment(int id, Tick t) {
-        this.id = id;
-        this.factory = t.getFactory();
-        this.name = t.getName();
-        this.args = new String[]{t.getTemplate()};
-    };
 
     @Override
     public String toString() {

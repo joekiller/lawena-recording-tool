@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 public class DemoPreviewFactory {
 
     private static final Logger log = Logger.getLogger("lawena");
-    private static final String n = System.getProperty("line.separator");
 
     public static DemoPreview getDemoPreview(Path demoPath) throws Exception {
         try (RandomAccessFile dp = new RandomAccessFile(demoPath.toString(), "r")) {

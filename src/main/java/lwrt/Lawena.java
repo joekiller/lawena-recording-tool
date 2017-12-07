@@ -44,7 +44,6 @@ public class Lawena {
 
     private static final Logger log = Logger.getLogger("lawena");
     private static final Logger status = Logger.getLogger("status");
-    private static final String n = System.getProperty("line.separator");
     private static StartTfTask startTfTask = null;
     private static ClearMoviesTask clearMoviesTask = null;
     private LawenaView view;
@@ -131,7 +130,7 @@ public class Lawena {
                 log.info("No movie directory specified, exiting.");
                 JOptionPane.showMessageDialog(null, "No movie directory specified, program will exit.",
                     "Invalid MoviePath", JOptionPane.WARNING_MESSAGE);
-                throw new IllegalArgumentException("A segment directory must be specified");
+                throw new IllegalArgumentException("A getSegment directory must be specified");
             }
         }
         movies = new MovieManager(settings);
@@ -454,7 +453,7 @@ public class Lawena {
         }.execute());
         view.getMntmLaunchTimeout().addActionListener(e -> {
             Object answer =
-                JOptionPane.showInputDialog(view, String.join(n,
+                JOptionPane.showInputDialog(view, String.join(Util.n,
                     "Enter the number of seconds to wait",
                     "before interrupting TF2 launch.",
                     "Enter 0 to disable timeout."),
@@ -1106,7 +1105,7 @@ public class Lawena {
                 // he or she also selects a "hud" in the sidebar
                 if (!verifyCustomHud()) {
                     JOptionPane.showMessageDialog(view,
-                        String.join(n,
+                        String.join(Util.n,
                             "Please select a custom HUD in the",
                             "Custom Resources table and retry"),
                         "Custom HUD",
